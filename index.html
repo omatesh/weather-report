@@ -11,58 +11,80 @@
     <link rel="stylesheet" href="styles/index.css" />
 </head>
 
-<body>
-    <header>
-        <h1 id="header-city-name">Seattle</h1>
-    </header>
+    <body>
+        <header>
+            <h1 id="header-city-name">Seattle</h1>
+            <div class="image-placeholder full-width-placeholder">Image Placeholder</div>
+        </header>
 
-    <main>
-        <!-- temprature control -->
-        <section id="temperature-section">
-            <button id="decrease-temp">⬇️</button>
-            <span id="temperature">49</span><span>°F</span>
-            <button id="increase-temp">⬆️</button>
-        </section>
+        <main class="main-container">
+            <section class="stacked-container"></section>
+                <section class="stacked-section section1"></section>
+                    <!-- temprature control -->
+                    <section id="temperature-section">
+                        <button id="decrease-temp">⬇️</button>
+                        <span id="temperature">49</span><span>°F</span>
+                        <button id="increase-temp">⬆️</button>
+                    </section>
 
-        <!-- landscape showing -->
-        <section id="landscape-section">
-            <p id="landscape">🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲</p>
-        </section>
+                    <!-- landscape showing -->
+                    <section id="landscape-section">
+                        <p id="landscape">🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲</p>
+                    </section>
 
-        <!-- update city name -->
-        <section>
-            <label for="city-name-input">Change city:</label>
-            <input id="city-name-input" type="text" placeholder="Enter city name" />
-        </section>
+                    <!-- update city name -->
+                    <section>
+                        <label for="city-name-input">Change city:</label>
+                        <input id="city-name-input" type="text" placeholder="Enter city name" />
+                    </section>
 
-        <!-- get the real temprature -->
-        <section>
-            <button id="get-real-temp">Get Real Temprature</button>
-        </section>
+                    <!-- get the real temprature -->
+                    <section>
+                        <button id="get-real-temp">Get Real Temprature</button>
+                    </section>
 
-        <!-- sky style -->
-        <section>
-            <label for="sky-select">Sky:</label>
-            <select id="sky-select">
-                <option value="sunny">Sunny</option>
-                <option value="cloudy">Cloudy</option>
-                <option value="rainy">Rainy</option>
-                <option value="snowy">Snowy</option>
-            </select>
+                    <!-- sky style -->
+                    <section>
+                        <label for="sky-select">Sky:</label>
+                        <select id="sky-select">
+                            <option value="sunny">Sunny</option>
+                            <option value="cloudy">Cloudy</option>
+                            <option value="rainy">Rainy</option>
+                            <option value="snowy">Snowy</option>
+                        </select>
 
-            <section>
-                <p id="sky">☁️☁️☁️☁️☁️</p>
+                        <section>
+                            <p id="sky">☁️☁️☁️☁️☁️</p>
+                        </section>
+
+                        <!-- city reset -->
+                        <section>
+                            <button id="reset-city">Reset City</button>
+                        </section>
+                    </section>
+                </section>
+                <section class="stacked-section section2">
+                    <h3>Section 2 Heading</h3>
+                    <div class="image-placeholder left-image-placeholder">Image Placeholder</div>
+                </section>
+
+                <section class="stacked-section section3">
+                    <h4>Section 3 Heading</h4>
+                    <div class="image-placeholder left-image-placeholder">Image Placeholder</div>
+                </section>
+                
+                <section class="centered-section">
+                    <h2>Centered Section Heading</h2>
+                    <div id="landscape" class="landscape">
+                    🌸
+                    </div>
+                    <div class="image-placeholder centered-image-placeholder">Image Placeholder</div>
+                </section>
             </section>
+        </main>
 
-            <!-- city reset -->
-            <section>
-                <button id="reset-city">Reset City</button>
-            </section>
-        </section>
-    </main>
-
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="./src/index.js"></script>
-</body>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="./src/index.js"></script>
+    </body>
 
 </html>
