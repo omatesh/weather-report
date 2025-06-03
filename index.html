@@ -14,6 +14,15 @@
     <body>
         <header>
             <h1 id="header-city-name">Seattle</h1>
+            <!-- city reset -->
+            <section>
+                <button id="reset-city">Reset City</button>
+            </section>
+            <!-- update city name -->
+            <section>
+                <label for="city-name-input">Change city:</label>
+                <input id="city-name-input" type="text" placeholder="Enter city name" />
+            </section>
             <div class="image-placeholder full-width-placeholder">Image Placeholder</div>
         </header>
 
@@ -28,22 +37,16 @@
                         <button id="increase-temp">⬆️</button>
                     </section>
 
-                    <!-- landscape showing -->
-                    <section id="landscape-section">
-                        <p id="landscape">🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲</p>
-                    </section>
 
-                    <!-- update city name -->
-                    <section>
-                        <label for="city-name-input">Change city:</label>
-                        <input id="city-name-input" type="text" placeholder="Enter city name" />
-                    </section>
+
 
                     <!-- get the real temprature -->
                     <section>
                         <button id="get-real-temp">Get Real Temprature</button>
                     </section>
-
+                </section>
+                <section class="stacked-section section2">
+                    <h3>Section 2 Heading</h3>
                     <!-- sky style -->
                     <section>
                         <label for="sky-select">Sky:</label>
@@ -57,15 +60,7 @@
                         <section>
                             <p id="sky">☁️☁️☁️☁️☁️</p>
                         </section>
-
-                        <!-- city reset -->
-                        <section>
-                            <button id="reset-city">Reset City</button>
-                        </section>
                     </section>
-                </section>
-                <section class="stacked-section section2">
-                    <h3>Section 2 Heading</h3>
                     <div class="image-placeholder left-image-placeholder">Image Placeholder</div>
                 </section>
 
@@ -76,9 +71,10 @@
                 
                 <section class="centered-section">
                     <h2>Centered Section Heading</h2>
-                    <div id="landscape" class="landscape">
-                    🌸
-                    </div>
+                    <!-- landscape showing -->
+                    <section id="landscape-section" class="landscape">
+                        <p id="landscape">🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲</p>
+                    </section>
                     <div class="image-placeholder centered-image-placeholder">Image Placeholder</div>
                 </section>
             </section>
