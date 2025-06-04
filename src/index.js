@@ -1,4 +1,7 @@
+// Set the initial temperature value
 let currentTemp = 49;
+
+// Update the temperature text and landscape visuals
 const updateTempDisplay = () => {
     const tempElement = document.getElementById("temperature");
     const landscapeElement = document.getElementById("landscape");
@@ -23,9 +26,11 @@ const updateTempDisplay = () => {
     }
 };
 
+// Add event listeners for temperature buttons and real-time fetch
 const registerEventHandlers = () => {
     const increaseButton = document.getElementById("increase-temp");
     const decreaseButton = document.getElementById("decrease-temp");
+    const getRealTempButton = document.getElementById("get-real-temp");
 
     increaseButton.addEventListener("click", () => {
         currentTemp += 1;
@@ -36,18 +41,56 @@ const registerEventHandlers = () => {
         currentTemp -= 1;
         updateTempDisplay();
     });
+
+    getRealTempButton.addEventListener("click", () => {
+        getRealTimeTemperature();
+    }) ; 
 };
 
-const registeerCityNameInput =() => {
+// Update the header city name as user types
+const registerCityNameInput =() => {
     const inputElement = document.getElementById("city-name-input");
     const headerElment = document.getElementById("header-city-name");
-
     inputElement.addEventListener("input", () => {
         headerElment.textContent = inputElement.value;
     });
 };
 
+// Send requests to proxy server to get real-time temperature
+const getRealTimeTemperature = () => {
+  const city = document.getElementById("city-name-input").value;
+
+  axios
+    .get("http://localhost:5000/location", {
+      params: { q: city },
+    })
+    .then((locationResponse) => {
+      const { lat, lon } = locationResponse.data[0];
+      return axios.get("http://localhost:5000/weather", {
+        params: { lat: lat, lon: lon },
+      });
+    })
+    .then((weatherResponse) => {
+      const kelvin = weatherResponse.data.main.temp;
+      const fahrenheit = Math.round((kelvin - 273.15) * (9 / 5) + 32);
+      currentTemp = fahrenheit;
+      updateTempDisplay();
+    })
+    .catch((error) => {
+      console.error("⚠️ Error fetching temperature data:", error);
+      alert("Could not fetch real-time temperature. Check console.");
+    });
+};
+
+
+
+// Initialize all UI and event setup when page is loaded
 document.addEventListener("DOMContentLoaded", () => {
     updateTempDisplay();
     registerEventHandlers();
+    registerCityNameInput();
+    registerSkySelector();
+    registerResetButton();
 });
+
+
