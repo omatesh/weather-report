@@ -26,6 +26,21 @@ const updateTempDisplay = () => {
     }
 };
 
+const updateSkyView = (value) => {
+
+    const skyElement = document.getElementById("sky");
+
+    if (value === "sunny") {
+        skyElement.textContent = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
+    } else if (value === "cloudy") {
+        skyElement.textContent = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
+    } else if (value === "rainy") {
+        skyElement.textContent = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
+    } else {
+        skyElement.textContent =  "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
+    };
+};
+
 // Add event listeners for temperature buttons and real-time fetch
 const registerEventHandlers = () => {
     const increaseButton = document.getElementById("increase-temp");
@@ -45,6 +60,10 @@ const registerEventHandlers = () => {
     getRealTempButton.addEventListener("click", () => {
         getRealTimeTemperature();
     }) ; 
+
+    resetCityButton.addEventListener("click", () => {
+    resetCityName();
+    });
 };
 
 // Update the header city name as user types
@@ -56,29 +75,40 @@ const registerCityNameInput =() => {
     });
 };
 
+//Update the sky display based on the selected option
+const registerSelectedSky = () => {
+    const skySelectElement = document.getElementById("sky-select");
+    skySelectElement.addEventListener("change", () => {
+    updateSkyView(skySelectElement.value)
+    });
+};
+
+
 // Send requests to proxy server to get real-time temperature
 const getRealTimeTemperature = () => {
-  const city = document.getElementById("city-name-input").value;
+    const city = document.getElementById("city-name-input").value;
 
-  axios
-    .get("http://localhost:5000/location", {
-      params: { q: city },
+    axios
+    // .get("http://localhost:5000/location", {
+    .get("http://127.0.0.1:3000/location", {
+        params: { q: city },
     })
     .then((locationResponse) => {
-      const { lat, lon } = locationResponse.data[0];
-      return axios.get("http://localhost:5000/weather", {
+        const { lat, lon } = locationResponse.data[0];
+        // return axios.get("http://localhost:5000/weather", {
+        return axios.get("http://127.0.0.1:3000/weather", {
         params: { lat: lat, lon: lon },
-      });
+        });
     })
     .then((weatherResponse) => {
-      const kelvin = weatherResponse.data.main.temp;
-      const fahrenheit = Math.round((kelvin - 273.15) * (9 / 5) + 32);
-      currentTemp = fahrenheit;
-      updateTempDisplay();
+        const kelvin = weatherResponse.data.main.temp;
+        const fahrenheit = Math.round((kelvin - 273.15) * (9 / 5) + 32);
+        currentTemp = fahrenheit;
+        updateTempDisplay();
     })
     .catch((error) => {
-      console.error("⚠️ Error fetching temperature data:", error);
-      alert("Could not fetch real-time temperature. Check console.");
+        console.error("⚠️ Error fetching temperature data:", error);
+        alert("Could not fetch real-time temperature. Check console.");
     });
 };
 
@@ -89,8 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTempDisplay();
     registerEventHandlers();
     registerCityNameInput();
-    registerSkySelector();
-    registerResetButton();
+    registerSelectedSky();
 });
 
 
