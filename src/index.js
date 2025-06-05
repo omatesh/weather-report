@@ -41,6 +41,19 @@ const updateSkyView = (value) => {
     };
 };
 
+const resetCityName = () => {
+    const defaultCity = "Seattle";
+
+    const cityElement = document.getElementById("header-city-name");
+    const inputElement = document.getElementById("city-name-input");
+
+    cityElement.textContent = defaultCity;
+    inputElement.value = defaultCity;
+
+    handleGettingWeather(defaultCity); // optional: update weather for default city
+};
+
+
 // Add event listeners for temperature buttons and real-time fetch
 const registerEventHandlers = () => {
     const increaseButton = document.getElementById("increase-temp");
@@ -63,7 +76,7 @@ const registerEventHandlers = () => {
     }) ; 
 
     resetCityButton.addEventListener("click", () => {
-    resetCityName();
+        resetCityName();
     });
 };
 
