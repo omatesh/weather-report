@@ -26,40 +26,11 @@ const updateTempDisplay = () => {
     }
 };
 
-const updateSkyView = (value) => {
-
-    const skyElement = document.getElementById("sky");
-
-    if (value === "sunny") {
-        skyElement.textContent = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
-    } else if (value === "cloudy") {
-        skyElement.textContent = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
-    } else if (value === "rainy") {
-        skyElement.textContent = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
-    } else {
-        skyElement.textContent =  "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
-    };
-};
-
-const resetCityName = () => {
-    const defaultCity = "Seattle";
-
-    const cityElement = document.getElementById("header-city-name");
-    const inputElement = document.getElementById("city-name-input");
-
-    cityElement.textContent = defaultCity;
-    inputElement.value = defaultCity;
-
-    handleGettingWeather(defaultCity); // optional: update weather for default city
-};
-
-
 // Add event listeners for temperature buttons and real-time fetch
 const registerEventHandlers = () => {
     const increaseButton = document.getElementById("increase-temp");
     const decreaseButton = document.getElementById("decrease-temp");
     const getRealTempButton = document.getElementById("get-real-temp");
-    const resetCityButton = document.getElementById("reset-city");
 
     increaseButton.addEventListener("click", () => {
         currentTemp += 1;
@@ -74,10 +45,6 @@ const registerEventHandlers = () => {
     getRealTempButton.addEventListener("click", () => {
         getRealTimeTemperature();
     }) ; 
-
-    resetCityButton.addEventListener("click", () => {
-        resetCityName();
-    });
 };
 
 // Update the header city name as user types
@@ -85,55 +52,76 @@ const registerCityNameInput =() => {
     const inputElement = document.getElementById("city-name-input");
     const headerElment = document.getElementById("header-city-name");
     inputElement.addEventListener("input", () => {
-        headerElment.textContent = inputElement.value;
+        headerElment.textContent = `🌤 Weather Report for ${inputElement.value} 🌎`;
     });
 };
-
-//Update the sky display based on the selected option
-const registerSelectedSky = () => {
-    const skySelectElement = document.getElementById("sky-select");
-    skySelectElement.addEventListener("change", () => {
-    updateSkyView(skySelectElement.value)
-    });
-};
-
 
 // Send requests to proxy server to get real-time temperature
 const getRealTimeTemperature = () => {
-    const city = document.getElementById("city-name-input").value;
+  const city = document.getElementById("city-name-input").value;
 
-    axios
-    // .get("http://localhost:5000/location", {
-    .get("http://127.0.0.1:3000/location", {
-        params: { q: city },
+  axios
+    .get("http://localhost:5000/location", {
+      params: { q: city },
     })
     .then((locationResponse) => {
-        const { lat, lon } = locationResponse.data[0];
-        // return axios.get("http://localhost:5000/weather", {
-        return axios.get("http://127.0.0.1:3000/weather", {
+      const { lat, lon } = locationResponse.data[0];
+      return axios.get("http://localhost:5000/weather", {
         params: { lat: lat, lon: lon },
-        });
+      });
     })
     .then((weatherResponse) => {
-        const kelvin = weatherResponse.data.main.temp;
-        const fahrenheit = Math.round((kelvin - 273.15) * (9 / 5) + 32);
-        currentTemp = fahrenheit;
-        updateTempDisplay();
+      const kelvin = weatherResponse.data.main.temp;
+      const fahrenheit = Math.round((kelvin - 273.15) * (9 / 5) + 32);
+      currentTemp = fahrenheit;
+      updateTempDisplay();
     })
     .catch((error) => {
-        console.error("⚠️ Error fetching temperature data:", error);
-        alert("Could not fetch real-time temperature. Check console.");
+      console.error("⚠️ Error fetching temperature data:", error);
+      alert("Could not fetch real-time temperature. Check console.");
     });
 };
 
+// Update the sky display based on the selected option
+const registerSkySelector = () => {
+  const skySelect = document.getElementById("sky-select");
+  const skyDisplay = document.getElementById("sky");
 
+  skySelect.addEventListener("change", () => {
+    const selected = skySelect.value;
+
+    if (selected === "sunny") {
+      skyDisplay.textContent = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
+    } else if (selected === "cloudy") {
+      skyDisplay.textContent = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
+    } else if (selected === "rainy") {
+      skyDisplay.textContent = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
+    } else if (selected === "snowy") {
+      skyDisplay.textContent = "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
+    }
+  });
+};
+
+// Reset the city name to default when button is clicked
+const registerResetButton = () => {
+  const resetButton = document.getElementById("reset-city");
+  const cityInput = document.getElementById("city-name-input");
+  const headerEl = document.getElementById("header-city-name");
+
+  resetButton.addEventListener("click", () => {
+    const defaultCity = "Seattle";
+    cityInput.value = defaultCity;
+    headerEl.textContent = `🌤 Weather Report for ${defaultCity} 🌎`;
+  });
+};
 
 // Initialize all UI and event setup when page is loaded
 document.addEventListener("DOMContentLoaded", () => {
     updateTempDisplay();
     registerEventHandlers();
     registerCityNameInput();
-    registerSelectedSky();
+    registerSkySelector();
+    registerResetButton();
 });
 
 
