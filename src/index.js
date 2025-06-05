@@ -46,6 +46,7 @@ const registerEventHandlers = () => {
     const increaseButton = document.getElementById("increase-temp");
     const decreaseButton = document.getElementById("decrease-temp");
     const getRealTempButton = document.getElementById("get-real-temp");
+    const resetCityButton = document.getElementById("reset-city");
 
     increaseButton.addEventListener("click", () => {
         currentTemp += 1;
